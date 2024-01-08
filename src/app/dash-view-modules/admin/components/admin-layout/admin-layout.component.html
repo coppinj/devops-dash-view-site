@@ -1,0 +1,64 @@
+<div class="min-h-screen flex surface-ground">
+  <div id="app-sidebar-5" class="bg-gray-900 h-screen hidden lg:block flex-shrink-0 fixed lg:sticky left-0 top-0 z-1 border-right-1 border-gray-800 w-18rem lg:w-7rem select-none">
+    <div class="flex flex-column h-full">
+      <div class="flex align-items-center justify-content-center flex-shrink-0" style="height:60px">
+        <img routerLink="/" ngSrc="assets/images/logo_full.jpg" alt="Image" height="30" width="51">
+      </div>
+      <div class="mt-3">
+        <ul class="list-none p-3 m-0">
+          <li *ngFor="let menuItem of menuItems">
+            <a pRipple [routerLink]="menuItem.routerLink"
+               class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-gray-300 hover:text-white transition-duration-150 transition-colors no-underline">
+              <i [ngClass]="menuItem.icon" class="mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
+              <span class="font-medium inline text-base lg:text-xs lg:block">{{menuItem.label!}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="min-h-screen flex flex-column relative flex-auto">
+    <div class="flex justify-content-between align-items-center px-5 surface-section relative lg:static border-bottom-1 surface-border" style="height:60px">
+      <div class="flex">
+        <a pRipple class="cursor-pointer inline-flex align-items-center justify-content-center lg:hidden text-700 mr-3" pStyleClass="#app-sidebar-5" enterClass="hidden" enterActiveClass="fadeinleft" leaveToClass="hidden" leaveActiveClass="fadeoutleft"
+           [hideOnOutsideClick]="true">
+          <i class="pi pi-bars text-4xl"></i>
+        </a>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input type="text" pInputText class="border-none w-10rem sm:w-20rem" placeholder="Search">
+        </span>
+      </div>
+      <a pRipple class="cursor-pointer block lg:hidden text-700" pStyleClass="@next" enterClass="hidden" enterActiveClass="fadein" leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true">
+        <i class="pi pi-ellipsis-v text-2xl"></i>
+      </a>
+      <ul class="list-none p-0 m-0 hidden lg:flex lg:align-items-center select-none lg:flex-row
+                surface-section border-1 lg:border-none surface-border right-0 top-100 z-1 shadow-2 lg:shadow-none absolute lg:static">
+        <li class="border-top-1 surface-border lg:border-top-none">
+          <a pRipple class="flex p-3 lg:px-3 lg:py-2 align-items-center hover:surface-100 font-medium border-round cursor-pointer
+                        transition-duration-150 transition-colors" [routerLink]="['/']">
+            <i class="pi pi-shopping-cart text-base lg:text-2xl mr-2 lg:mr-0"></i>
+            <span class="block lg:hidden font-medium">{{ 'ADMIN.MENU.SHOP'}}</span>
+          </a>
+        </li>
+        <li class="border-top-1 surface-border lg:border-top-none">
+          <a pRipple class="flex p-3 lg:px-3 lg:py-2 align-items-center hover:surface-100 font-medium border-round cursor-pointer
+                        transition-duration-150 transition-colors" (click)="signOut()">
+            <i class="pi pi-sign-out text-base lg:text-2xl mr-2 lg:mr-0"></i>
+            <span class="block lg:hidden font-medium">{{ 'ADMIN.MENU.SIGN_OUT'}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="p-3 flex flex-column flex-auto">
+      <div class="surface-border flex-auto">
+        <app-loader [loading]="loading"></app-loader>
+
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog key="confirm-dialog" [style]="{width: '50vw'}"></p-confirmDialog>
+<p-toast [key]="TOAST_KEY"></p-toast>
