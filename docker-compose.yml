@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  site:
+    build:
+      context: .docker/local
+      dockerfile: Dockerfile
+    ports:
+      - '49000:4200'
+    working_dir: /site
+    volumes:
+      - .:/site

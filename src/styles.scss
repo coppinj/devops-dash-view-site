@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~boxicons/css/boxicons.min.css';
+@import '~primeicons/primeicons.css';
+@import '~primeng/resources/themes/lara-light-teal/theme.css';
+@import '~primeflex/primeflex.css';
+@import '~primeng/resources/primeng.min.css';
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+.p-button.p-button-icon-only.p-button-rounded {
+  height: 2rem;
+  width: 2rem;
+  padding: 0;
+}
+
+.action-buttons {
+  button {
+    margin-left: 1rem;
+  }
+}
+
+.p-button.p-button-xs {
+    font-size: 0.75rem;
+    padding: 0.40rem 0.75rem;
+}
+
+:root {
+  //--surface-ground: #F8FFF8;
+  --surface-ground: #fcfffc;
+  //--surface-section: #E9E4E1;
+  --surface-section: white;
+  //--surface-overlay: #F2F3EE;
+  --surface-overlay: white;
+}
+
+a.product-header {
+  background: #f2faea !important;
+}
+
+label.required:after {
+  content: ' *';
+  color: var(--red-400);
+}
+
+.text-danger {
+  color: var(--red-600);
+}
