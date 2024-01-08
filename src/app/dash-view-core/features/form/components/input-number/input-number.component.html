@@ -1,0 +1,7 @@
+<div class="flex flex-column gap-2">
+  <app-form-label *ngIf="label" [label]="label" [info]="info" [required]="required" [labelFor]="fieldId"/>
+  <p-inputNumber [inputId]="fieldId" [formControl]="formControl" [placeholder]="placeholder" [min]="min"
+                 [max]="max" mode="decimal" [minFractionDigits]="decimal ? 2 : undefined" [maxFractionDigits]="decimal ? 2 : undefined"
+                 styleClass="w-full"/>
+  <app-form-error [control]="formControl"/>
+</div>

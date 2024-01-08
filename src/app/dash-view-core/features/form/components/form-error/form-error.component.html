@@ -1,0 +1,17 @@
+<ng-container *ngIf="control && control.invalid && (control.dirty || control.touched) && !control.disabled">
+  <ng-container *ngIf="requiredError; else otherErrorsTpl">
+    <div class="input-error" [innerHTML]="'FORM.VALIDATION.REQUIRED' | translate"></div>
+  </ng-container>
+</ng-container>
+
+<ng-template #otherErrorsTpl>
+  <ng-container *ngIf="errors && errors.length > 0">
+    <ng-container *ngFor="let error of errors">
+      <ng-container [ngSwitch]="error">
+        <div class="input-error" *ngSwitchCase="'email'" [innerHTML]="'FORM.VALIDATION.EMAIL' | translate"></div>
+        <div class="input-error" *ngSwitchCase="'maxlength'" [innerHTML]="'FORM.VALIDATION.MAX_LENGTH' | translate:{value: control!.errors![error].requiredLength}"></div>
+        <div class="input-error" *ngSwitchDefault>{{error}}</div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>

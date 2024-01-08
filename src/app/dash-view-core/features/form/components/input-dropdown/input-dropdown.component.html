@@ -1,0 +1,19 @@
+<div class="flex flex-column gap-2">
+  <app-form-label [labelFor]="fieldId" [label]="label" [info]="info"/>
+
+  <ng-container *ngIf="!multiple">
+    <p-dropdown styleClass="w-full" [inputId]="fieldId" [options]="items" [filter]="filter" [virtualScroll]="virtualScroll"
+                [formControl]="ngControl.control | formControl" [placeholder]="placeholder" [showClear]="true"
+                [filterPlaceholder]="'FORM.LABEL.SEARCH'|translate" [appendTo]="appendTo">
+    </p-dropdown>
+  </ng-container>
+
+  <ng-container *ngIf="multiple">
+    <p-multiSelect styleClass="w-full" [inputId]="fieldId" [options]="items" [filter]="filter" [virtualScroll]="virtualScroll"
+                [formControl]="ngControl.control | formControl" [placeholder]="placeholder" [showClear]="true"
+                [appendTo]="appendTo">
+    </p-multiSelect>
+  </ng-container>
+
+  <app-form-error [control]="ngControl.control | formControl"/>
+</div>

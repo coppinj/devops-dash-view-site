@@ -1,0 +1,13 @@
+<div class="flex flex-column gap-2">
+  <app-form-label *ngIf="label" [label]="label" [info]="info" [required]="required" [labelFor]="fieldId"/>
+
+  <textarea *ngIf="!asRichText" [rows]="rows" [id]="fieldId" pInputTextarea class="no-horizontal-resize" [formControl]="formControl"></textarea>
+  <p-editor *ngIf="asRichText"
+            [style]="{'height':'240px'}"
+            [id]="fieldId" [attr.aria-describedby]="fieldId + '-help'"
+            [formControl]="formControl" class="compact inputfield w-full">
+  </p-editor>
+
+
+  <app-form-error [control]="formControl"/>
+</div>

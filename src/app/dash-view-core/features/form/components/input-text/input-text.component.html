@@ -1,0 +1,5 @@
+<div class="flex flex-column gap-2">
+  <app-form-label *ngIf="label" [label]="label" [info]="info" [required]="required" [labelFor]="fieldId"/>
+  <input [id]="fieldId" type="text" pInputText [formControl]="formControl" [placeholder]="placeholder" [maxlength]="maxlength">
+  <app-form-error [control]="formControl"/>
+</div>

@@ -1,0 +1,13 @@
+.loader-sm {
+  .p-progress-spinner {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.loader-fullscreen {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  z-index: 3050;
+}

@@ -1,0 +1,1 @@
+export { FormErrorType } from './form-error.type';

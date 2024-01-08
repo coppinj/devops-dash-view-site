@@ -1,0 +1,16 @@
+<div class="grid i18n-container">
+  <ng-container *ngFor="let culture of cultures">
+    <app-input-text *ngIf="!asText"
+                    [label]="label"
+                    [class.md:col-12]="stacked" [class.md:col-6]="!stacked"
+                    class="i18n-input" [formControl]="group.get(culture) | formControl">
+    </app-input-text>
+    <app-input-textarea *ngIf="asText"
+                        [label]="label" [asRichText]="asRichText"
+                        [class.md:col-12]="stacked" [class.md:col-6]="!stacked"
+                        class="i18n-input" [formControl]="group.get(culture) | formControl">
+    </app-input-textarea>
+  </ng-container>
+
+  <app-form-error [control]="formControl"/>
+</div>

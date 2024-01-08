@@ -1,0 +1,5 @@
+<div class="flex align-items-center gap-1">
+  <p-checkbox [id]="fieldId" [formControl]="formControl" [binary]="true"/>
+  <app-form-label *ngIf="label" [label]="label" [info]="info" [required]="required" [labelFor]="fieldId"/>
+  <app-form-error [control]="formControl"/>
+</div>
