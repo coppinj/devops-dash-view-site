@@ -16,14 +16,9 @@ import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 
 import { AdminRoutingModule } from './admin-routing.module';
-import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    AdminLayoutComponent,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     AdminRoutingModule,

@@ -1,15 +1,19 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AuthService, LoadingService, ToastService, TranslateService } from '@dash-view-core';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from '../../../auth';
+import { LoadingService } from '../../../loader';
+import { ToastService } from '../../../toast';
+import { TranslateService } from '../../../translations';
+import { MenuService } from '../../services';
 
 @Component({
-  selector: 'app-admin-layout',
-  templateUrl: './admin-layout.component.html',
-  styleUrls: ['./admin-layout.component.scss'],
+  selector: 'app-sidebar-layout',
+  templateUrl: './sidebar-layout.component.html',
+  styleUrls: ['./sidebar-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminLayoutComponent implements OnInit {
+export class SidebarLayoutComponent implements OnInit {
   menuItems!: MenuItem[];
   loading!: boolean;
 
@@ -22,27 +26,12 @@ export class AdminLayoutComponent implements OnInit {
     private readonly loadingService: LoadingService,
     private readonly cd: ChangeDetectorRef,
     private readonly authService: AuthService,
+    private readonly menuService: MenuService,
   ) {
   }
 
   ngOnInit(): void {
-    this.menuItems = [
-      {
-        label: this.translateService.instant('ADMIN.MENU.DASHBOARD'),
-        routerLink: ['/admin/dashboard'],
-        icon: 'bx bxs-report',
-      },
-      {
-        label: this.translateService.instant('ADMIN.MENU.PRODUCTS'),
-        routerLink: ['/admin/products'],
-        icon: 'bx bx-store',
-      },
-      {
-        label: this.translateService.instant('ADMIN.MENU.ORDERS'),
-        routerLink: ['/admin/orders'],
-        icon: 'bx bx-package',
-      },
-    ];
+    this.menuItems = this.menuService.build();
 
     this.loadingService.loadingAsObservable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(s => {
       this.loading = s;
