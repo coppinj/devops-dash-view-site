@@ -40,6 +40,7 @@ export class FormErrorComponent implements OnInit {
     if (!this.control.errors) {
       return;
     }
+    console.log(this.control.errors);
 
     // = Required is priority
     if (this.control.errors['required']) {

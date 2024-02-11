@@ -1,1 +1,34 @@
-<p>repository works!</p>
+<div *ngIf="form" [formGroup]="form" class="grid">
+  <p-panel class="col-12" [showHeader]="false">
+    <div class="grid">
+      <div class="col-12 xl:col-6">
+        <app-input-text [label]="'REPOSITORY.CREATE.MODEL.NAME' | translate" [formControl]="form.getControl('name')"></app-input-text>
+      </div>
+      <div class="col-12 xl:col-6">
+        <app-input-text [label]="'REPOSITORY.CREATE.MODEL.URL' | translate" [formControl]="form.getControl('url')"></app-input-text>
+      </div>
+
+      <div class="col-12 text-right">
+        <p-button [disabled]="form.invalid" [label]="'FORM.BTN.SAVE' | translate" [outlined]="true" severity="success" type="button" (onClick)="submit()"></p-button>
+      </div>
+    </div>
+  </p-panel>
+
+  <p-tabView class="col-12">
+    <p-tabPanel [header]="'REPOSITORY.TABS.PIPELINES' | translate">
+      <ng-template pTemplate="content">
+        <app-repository-pipeline-tab [repositoryID]="item.id"/>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel [header]="'REPOSITORY.TABS.ACCESSES' | translate">
+      <ng-template pTemplate="content">
+        <app-repository-user-access-tab [repositoryID]="item.id"/>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel [header]="'REPOSITORY.TABS.API_KEYS' | translate">
+      <ng-template pTemplate="content">
+        <app-repository-api-key-tab [repositoryID]="item.id"/>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+</div>

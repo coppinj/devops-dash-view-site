@@ -107,15 +107,15 @@ export abstract class APIClient<TEntity = any> {
     return this.http.put<TResult>(typeof idOrUrl === 'number' ? this.getResourceURL(idOrUrl, subIds) : idOrUrl, data);
   }
 
-  delete(id: number): Observable<void>;
+  delete(id: number, subIds?: Params): Observable<void>;
   delete(url: string): Observable<void>;
 
-  delete(idOrUrl: number | string): Observable<void> {
-    if (!isNaN(parseInt(idOrUrl.toString()))) {
-      return this.http.delete<void>(this.getResourceURL(idOrUrl));
+  delete(idOrUrlOrSubIds: number | string, subIds?: Params): Observable<void> {
+  if (!isNaN(parseInt(idOrUrlOrSubIds.toString()))) {
+      return this.http.delete<void>(this.getResourceURL(idOrUrlOrSubIds, subIds));
     }
 
-    return this.http.delete<void>(idOrUrl as string);
+    return this.http.delete<void>(idOrUrlOrSubIds as string);
   }
 
   protected createFormData<TBody>(entity: TBody, skipFiles: boolean = false): FormData {

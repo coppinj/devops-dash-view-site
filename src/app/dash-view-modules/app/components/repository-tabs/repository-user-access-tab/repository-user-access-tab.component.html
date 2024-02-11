@@ -5,14 +5,8 @@
          [currentPageReportTemplate]="'DATATABLE.PAGE_REPORT' | translate:{first: '{first}', last: '{last}',totalRecords: '{totalRecords}'}">
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="rowID">{{ 'REPOSITORY.TABS.API_KEY.DATATABLE.MODEL.ID' | translate }}
+      <th pSortableColumn="rowID">{{ 'REPOSITORY.TABS.USER_ACCESS.DATATABLE.MODEL.ID' | translate }}
         <p-sortIcon field="rowID"></p-sortIcon>
-      </th>
-      <th pSortableColumn="expirationDate">{{ 'REPOSITORY.TABS.API_KEY.DATATABLE.MODEL.EXPIRATION_DATE' | translate }}
-        <p-sortIcon field="expirationDate"></p-sortIcon>
-      </th>
-      <th pSortableColumn="lastAccessedDate">{{ 'REPOSITORY.TABS.API_KEY.DATATABLE.MODEL.LAST_ACCESSED_DATE' | translate }}
-        <p-sortIcon field="lastAccessedDate"></p-sortIcon>
       </th>
       <th></th>
     </tr>
@@ -20,9 +14,8 @@
   <ng-template pTemplate="body" let-row>
     <tr (dblclick)="edit(row)">
       <td>{{ row.rowID }}</td>
-      <td>{{ row.expirationDate | date:'medium' }}</td>
-      <td>{{ row.lastAccessedDate | date:'medium' }}</td>
       <td class="text-center">
+        <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-text p-button-sm p-button-success" (onClick)="edit(row)"></p-button>
         <p-button icon="pi pi-trash" styleClass="p-button-rounded p-button-text p-button-sm p-button-danger" (onClick)="delete(row)"></p-button>
       </td>
     </tr>

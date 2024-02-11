@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { IEntityDTO } from '@dash-view-common';
@@ -13,7 +13,7 @@ import { RepositoryService } from '../../services/repository.service';
   styleUrl: './repository-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RepositoryListComponent {
+export class RepositoryListComponent implements OnInit{
   private destroyRef = inject(DestroyRef);
 
   constructor(
@@ -23,6 +23,10 @@ export class RepositoryListComponent {
     private readonly router: Router,
     private readonly cd: ChangeDetectorRef,
   ) {
+  }
+
+  ngOnInit(): void {
+    this.create();
   }
 
   create(): void {

@@ -1,3 +1,15 @@
-<div class="flex justify-content-end mt-1 mb-3">
-  <p-button icon="pi pi-external-link" label="Nested Dialog" [outlined]="true" severity="success"/>
-</div>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="grid justify-content-end mt-1 mb-3">
+    <div class="col-12">
+      <app-input-text [label]="'REPOSITORY.CREATE.MODEL.NAME' | translate" [formControl]="form.getControl('name')"></app-input-text>
+    </div>
+    <div class="col-12">
+      <app-input-text [label]="'REPOSITORY.CREATE.MODEL.URL' | translate" [formControl]="form.getControl('url')"></app-input-text>
+    </div>
+
+    <div class="col-12 text-right">
+      <p-button [label]="'DIALOG.BTN.CLOSE' | translate" [outlined]="true" (onClick)="close()"></p-button>
+      <p-button [disabled]="form.invalid" [label]="'DIALOG.BTN.SAVE' | translate" [outlined]="true" severity="success" type="button" (onClick)="submit()"></p-button>
+    </div>
+  </div>
+</form>

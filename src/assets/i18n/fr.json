@@ -1,3 +1,6 @@
 {
+  "DATATABLE": {
+    "PAGE_REPORT": "Affichage de {first} à {last} des entrées de {totalRecords}."
+  },
   "TEST_MODE": "SITE TEST"
 }

@@ -1,1 +1,12 @@
-<p>repository-api-key-create-dialog works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="grid justify-content-end mt-1 mb-3">
+    <div class="col-12">
+      <app-input-text [label]="'REPOSITORY.TABS.API_KEY.CREATE_DIALOG.MODEL.EXPIRATION_DATE' | translate" [formControl]="form.getControl('expirationDate')"></app-input-text>
+    </div>
+
+    <div class="col-12 text-right">
+      <p-button [label]="'DIALOG.BTN.CLOSE' | translate" [outlined]="true" (onClick)="close()"></p-button>
+      <p-button [disabled]="form.invalid" [label]="'DIALOG.BTN.SAVE' | translate" [outlined]="true" severity="success" type="button" (onClick)="submit()"></p-button>
+    </div>
+  </div>
+</form>

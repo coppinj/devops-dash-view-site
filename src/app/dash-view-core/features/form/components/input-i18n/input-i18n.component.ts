@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup, NgControl } from '@angular/forms';
-import { ITranslationDTO } from '@dash-view-common';
+import { ITranslationReadDTO } from '@dash-view-common';
 import { TranslateService } from '../../../translations';
 import { FormField } from '../../model';
 
@@ -22,11 +22,11 @@ export class InputI18nComponent extends FormField implements OnInit {
 
   @Input() stacked: boolean = false;
 
-  cultures!: (keyof ITranslationDTO)[];
+  cultures!: (keyof ITranslationReadDTO)[];
 
   group!: FormGroup;
 
-  value!: ITranslationDTO | null;
+  value!: ITranslationReadDTO | null;
 
   private _updatingState!: boolean;
 
@@ -54,7 +54,7 @@ export class InputI18nComponent extends FormField implements OnInit {
     this.group = this.fb.group({});
 
     for (const culture of this.cultures) {
-      const value = this.value?.[culture as keyof ITranslationDTO] ?? null;
+      const value = this.value?.[culture as keyof ITranslationReadDTO] ?? null;
 
       this.group.addControl(culture, this.fb.control({
         value,
@@ -81,7 +81,7 @@ export class InputI18nComponent extends FormField implements OnInit {
     });
   }
 
-  override writeValue(value: ITranslationDTO): void {
+  override writeValue(value: ITranslationReadDTO): void {
     if (!value) {
       return;
     }
@@ -91,7 +91,7 @@ export class InputI18nComponent extends FormField implements OnInit {
     if (this.cultures) {
       for (const culture of this.cultures) {
         if (value.hasOwnProperty(culture)) {
-          this.group.get(culture)?.setValue(value[culture as keyof ITranslationDTO]);
+          this.group.get(culture)?.setValue(value[culture as keyof ITranslationReadDTO]);
         }
       }
     }
@@ -105,7 +105,7 @@ export class InputI18nComponent extends FormField implements OnInit {
     }
   }
 
-  private _computeValue(culture: keyof ITranslationDTO): void {
+  private _computeValue(culture: keyof ITranslationReadDTO): void {
     const value = (this.group.get(culture) as FormControl).value?.toString()?.trim();
 
     console.log(culture, value);
@@ -118,7 +118,7 @@ export class InputI18nComponent extends FormField implements OnInit {
 
     (this.value[culture] as any) = value === '' ? null : value;
 
-    if (!Object.keys(this.value).filter(x => this.cultures.includes(x as keyof ITranslationDTO)).every(x => this.value![x as keyof ITranslationDTO] !== '')) {
+    if (!Object.keys(this.value).filter(x => this.cultures.includes(x as keyof ITranslationReadDTO)).every(x => this.value![x as keyof ITranslationReadDTO] !== '')) {
       this.value = null;
     }
 

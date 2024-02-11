@@ -6,12 +6,19 @@
 
 <ng-template #otherErrorsTpl>
   <ng-container *ngIf="errors && errors.length > 0">
-    <ng-container *ngFor="let error of errors">
-      <ng-container [ngSwitch]="error">
-        <div class="input-error" *ngSwitchCase="'email'" [innerHTML]="'FORM.VALIDATION.EMAIL' | translate"></div>
-        <div class="input-error" *ngSwitchCase="'maxlength'" [innerHTML]="'FORM.VALIDATION.MAX_LENGTH' | translate:{value: control!.errors![error].requiredLength}"></div>
-        <div class="input-error" *ngSwitchDefault>{{error}}</div>
+    <div class="input-error">
+      <ng-container *ngFor="let error of errors">
+        <ng-container [ngSwitch]="error">
+          <span *ngSwitchCase="'email'" [innerHTML]="'FORM.VALIDATION.EMAIL' | translate"></span>
+          <span *ngSwitchCase="'maxlength'" [innerHTML]="'FORM.VALIDATION.MAX_LENGTH' | translate:{value: control!.errors![error].requiredLength}"></span>
+          <ng-container *ngSwitchCase="'custom'">
+          <span *ngFor="let customError of control!.errors![error]">
+            {{ customError }}
+          </span>
+          </ng-container>
+          <span *ngSwitchDefault>{{ error }}</span>
+        </ng-container>
       </ng-container>
-    </ng-container>
+    </div>
   </ng-container>
 </ng-template>

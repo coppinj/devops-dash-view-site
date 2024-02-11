@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'src/assets/styles/reset';
+//@import 'src/assets/styles/reset';
+body {
+  margin: 0;
+  padding: 0;
+}
+
 @import 'boxicons/css/boxicons.min.css';
 @import 'primeicons/primeicons.css';
 @import 'primeng/resources/themes/lara-light-teal/theme.css';

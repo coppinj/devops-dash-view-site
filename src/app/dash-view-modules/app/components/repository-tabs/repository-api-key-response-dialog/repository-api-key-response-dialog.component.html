@@ -1,0 +1,9 @@
+<div class="grid justify-content-end mt-1 mb-3">
+  <div class="col-12">
+    <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+  </div>
+
+  <div class="col-12 text-right">
+    <p-button [label]="'DIALOG.BTN.CLOSE' | translate" [outlined]="true" (onClick)="close()"></p-button>
+  </div>
+</div>
