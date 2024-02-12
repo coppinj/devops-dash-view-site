@@ -15,17 +15,17 @@
   </p-panel>
 
   <p-tabView class="col-12">
-    <p-tabPanel [header]="'REPOSITORY.TABS.PIPELINES' | translate">
+    <p-tabPanel [header]="'REPOSITORY.TABS.PIPELINES' | translate" [cache]="false">
       <ng-template pTemplate="content">
         <app-repository-pipeline-tab [repositoryID]="item.id"/>
       </ng-template>
     </p-tabPanel>
-    <p-tabPanel [header]="'REPOSITORY.TABS.ACCESSES' | translate">
+    <p-tabPanel [header]="'REPOSITORY.TABS.ACCESSES' | translate" [cache]="false">
       <ng-template pTemplate="content">
         <app-repository-user-access-tab [repositoryID]="item.id"/>
       </ng-template>
     </p-tabPanel>
-    <p-tabPanel [header]="'REPOSITORY.TABS.API_KEYS' | translate">
+    <p-tabPanel [header]="'REPOSITORY.TABS.API_KEYS' | translate" [cache]="false">
       <ng-template pTemplate="content">
         <app-repository-api-key-tab [repositoryID]="item.id"/>
       </ng-template>
