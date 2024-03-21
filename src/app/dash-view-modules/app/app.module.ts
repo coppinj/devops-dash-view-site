@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashViewCoreModule } from '@dash-view-core';
+import { Highlight } from 'ngx-highlightjs';
 import { ButtonModule } from 'primeng/button';
+import { DeferModule } from 'primeng/defer';
 import { MessagesModule } from 'primeng/messages';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
@@ -15,6 +17,7 @@ import { RepositoryApiKeyTabComponent } from './components/repository-tabs/repos
 import { RepositoryPipelineTabComponent } from './components/repository-tabs/repository-pipeline-tab/repository-pipeline-tab.component';
 import { RepositoryUserAccessDialogComponent } from './components/repository-tabs/repository-user-access-dialog/repository-user-access-dialog.component';
 import { RepositoryUserAccessTabComponent } from './components/repository-tabs/repository-user-access-tab/repository-user-access-tab.component';
+import { PipelineComponent } from './pages/pipeline/pipeline.component';
 import { RepositoryListComponent } from './pages/repository-list/repository-list.component';
 import { RepositoryComponent } from './pages/repository/repository.component';
 import { RepositoryService } from './services/repository.service';
@@ -22,6 +25,7 @@ import { TabViewModule } from "primeng/tabview";
 
 @NgModule({
   declarations: [
+    PipelineComponent,
     RepositoryListComponent,
     RepositoryComponent,
     RepositoryCreateDialogComponent,
@@ -43,6 +47,8 @@ import { TabViewModule } from "primeng/tabview";
     TabViewModule,
     TableModule,
     MessagesModule,
+    Highlight,
+    DeferModule,
   ],
   providers: [],
 })

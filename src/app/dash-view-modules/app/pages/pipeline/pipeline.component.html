@@ -1,0 +1,12 @@
+<!--<div *ngFor="let line of codeLines; let i = index" [class.highlight]="isHighlighted(i + 1)">-->
+<!--  <input type="checkbox" *ngIf="isCheckboxLine(i + 1)" (change)="checkboxChanged($event, i + 1)">-->
+<!--  <pre><code [innerHTML]="line | highlight: 'java'"></code></pre>-->
+<!--</div>-->
+
+<ng-container *ngIf="item">
+  <div *ngFor="let testClass of item.testClasses" pDefer>
+    <ng-template>
+      <pre><code [lineNumbers]="true" [highlight]="testClass.sourceCode"></code></pre>
+    </ng-template>
+  </div>
+</ng-container>

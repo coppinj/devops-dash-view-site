@@ -77,8 +77,15 @@ export abstract class APIClient<TEntity = any> {
     return this.http.post<TResult[]>(this.getResourceURL('filters'), body);
   }
 
-  get<TResult = TEntity>(id: number | string, params?: Params): Observable<TResult> {
-    return this.http.get<TResult>(this.getResourceURL(id), { params });
+  get<TResult = TEntity>(id: number | string, params?: Params): Observable<TResult>;
+  get<TResult = TEntity>(subIds: Params, params?: Params): Observable<TResult>;
+
+  get<TResult = TEntity>(idOrSubIds: number | string | Params, params?: Params): Observable<TResult> {
+    if (typeof idOrSubIds === 'object') {
+      return this.http.get<TResult>(this.getResourceURL(idOrSubIds['id'] ?? undefined, idOrSubIds), { params });
+    }
+
+    return this.http.get<TResult>(this.getResourceURL(idOrSubIds), { params });
   }
 
   create<TResult = TEntity>(data: any): Observable<TResult>;
@@ -111,7 +118,7 @@ export abstract class APIClient<TEntity = any> {
   delete(url: string): Observable<void>;
 
   delete(idOrUrlOrSubIds: number | string, subIds?: Params): Observable<void> {
-  if (!isNaN(parseInt(idOrUrlOrSubIds.toString()))) {
+    if (!isNaN(parseInt(idOrUrlOrSubIds.toString()))) {
       return this.http.delete<void>(this.getResourceURL(idOrUrlOrSubIds, subIds));
     }
 

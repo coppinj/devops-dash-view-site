@@ -11,3 +11,9 @@ body {
 @import 'primeng/resources/themes/lara-light-teal/theme.css';
 @import 'primeng/resources/primeng.min.css';
 @import 'primeflex/primeflex.css';
+@import "highlight.js/styles/github.css";
+
+.p-button.p-button-icon-only.p-button-rounded {
+  height: 2rem;
+  width: 2rem;
+}

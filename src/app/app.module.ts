@@ -9,6 +9,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { DashViewCoreModule, TranslateService } from '@dash-view-core';
 import { TranslateCompiler, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 import { MESSAGE_FORMAT_CONFIG, TranslateMessageFormatCompiler } from 'ngx-translate-messageformat-compiler';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -52,6 +53,7 @@ registerLocaleData(localeFr);
         ],
       },
     }),
+    HighlightModule,
     AppRoutingModule,
   ],
   providers: [
@@ -63,6 +65,16 @@ registerLocaleData(localeFr);
       multi: true,
     },
     { provide: LOCALE_ID, useValue: 'fr-FR' },
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        coreLibraryLoader: () => import('highlight.js/lib/core'),
+        lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
+        languages: {
+          java: () => import('highlight.js/lib/languages/java'),
+        },
+      },
+    },
     DialogService,
     ConfirmationService,
     MessageService,

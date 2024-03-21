@@ -27,6 +27,7 @@
     "boxicons": "^2.1.4",
     "file-saver": "^2.0.5",
     "luxon": "^3.2.1",
+    "ngx-highlightjs": "^10.0.0",
     "ngx-translate-messageformat-compiler": "^6.5.0",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",

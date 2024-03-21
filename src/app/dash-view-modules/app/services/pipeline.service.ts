@@ -5,6 +5,6 @@ import { APIClient } from '@dash-view-core';
 @Injectable({ providedIn: 'root' })
 export class PipelineService extends APIClient {
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'pipelines');
+    super(httpClient, 'repositories/:repositoryID/pipelines');
   }
 }
