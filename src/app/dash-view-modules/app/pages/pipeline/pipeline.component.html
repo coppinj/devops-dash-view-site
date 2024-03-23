@@ -3,10 +3,84 @@
 <!--  <pre><code [innerHTML]="line | highlight: 'java'"></code></pre>-->
 <!--</div>-->
 
-<ng-container *ngIf="item">
-  <div *ngFor="let testClass of item.testClasses" pDefer>
-    <ng-template>
-      <pre><code [lineNumbers]="true" [highlight]="testClass.sourceCode"></code></pre>
-    </ng-template>
+<div #container class="flex flex-1 flex-column bg-blue-400">
+  <div class="grid grid-nogutter flex-auto h-full">
+    <div class="col-12 xl:col-9 overflow-y-auto" [ngStyle]="{'max-height': maxCodeHeight}">
+      <app-loader [context]="LoadingContexts.CUSTOM"></app-loader>
+
+      <ng-container *ngIf="item">
+        <div *ngFor="let testClass of item.testClasses; index as i" pDefer (onLoad)="updateScroller(i)">
+          <ng-template>
+            <pre class="m-0 p-0" #scrollTarget><code [lineNumbers]="true" [highlight]="testClass.sourceCode"></code></pre>
+          </ng-template>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="col-12 xl:col-3">
+      <ng-container *ngIf="item">
+        <p-scroller #sc [items]="scrollerItems" [itemSize]="30">
+          <ng-template pTemplate="item" let-item let-options="options">
+            <div class="flex align-items-center p-2 cursor-pointer" [class.bg-primary]="item.id === currentTestClassID" [ngClass]="{ 'surface-ground': options.odd }">{{ item.id }} {{ item.name }}</div>
+          </ng-template>
+        </p-scroller>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="false && item" class="grid h-full">
+  <div class="col-12 overflow-y-auto max-h-full">
+    <div class="grid bg-red-400">
+      <div class="col-12 xl:col-9 overflow-y-auto">
+        <div *ngFor="let testClass of item.testClasses; index as i" pDefer (onLoad)="updateScroller(i)">
+          <ng-template>
+            <pre #scrollTarget><code [lineNumbers]="true" [highlight]="testClass.sourceCode"></code></pre>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="col-12 xl:col-3">
+        <p-scroller #sc [items]="scrollerItems" [itemSize]="30">
+          <ng-template pTemplate="item" let-item let-options="options">
+            <div class="flex align-items-center p-2 cursor-pointer" [class.bg-primary]="item.id === currentTestClassID" [ngClass]="{ 'surface-ground': options.odd }">{{ item.id }} {{ item.name }}</div>
+          </ng-template>
+        </p-scroller>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="item && false">
+  <div class="grid">
+    <div class="col-12 xl:col-9">
+      <div *ngFor="let testClass of item.testClasses; index as i" pDefer (onLoad)="updateScroller(i)">
+        <ng-template>
+          <div class="grid">
+            <div class="col-12">
+              <!--              <p-panel>-->
+              <!--                <ng-template pTemplate="header">-->
+              <!--                  <div class="flex align-items-center gap-2">-->
+              <!--                    <span class="font-bold">Amy Elsner</span>-->
+              <!--                  </div>-->
+              <!--                </ng-template>-->
+
+              <pre #scrollTarget><code [lineNumbers]="true" [highlight]="testClass.sourceCode"></code></pre>
+              <!--              </p-panel>-->
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-12 xl:col-3">
+      <div class="fixed w-full h-full overflow-y-auto border-1 surface-border px-2">
+        <!--      <div class="border-1 surface-border">-->
+        <p-scroller #sc [items]="scrollerItems" [itemSize]="30">
+          <ng-template pTemplate="item" let-item let-options="options">
+            <div class="flex align-items-center p-2 cursor-pointer" [class.bg-primary]="item.id === currentTestClassID" [ngClass]="{ 'surface-ground': options.odd }" style="height: 30px;">{{ item.id }} {{ item.name }}</div>
+          </ng-template>
+        </p-scroller>
+      </div>
+    </div>
   </div>
 </ng-container>
