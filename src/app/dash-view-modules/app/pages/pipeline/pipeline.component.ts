@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IPipelineReadDTO, ITestClassReadDTO } from '@dash-view-common';
+import { IPipelineReadDTO } from '@dash-view-common';
 import { CoreFormBuilder, LoadingContexts, LoadingService, TranslateService } from '@dash-view-core';
 import { Scroller } from 'primeng/scroller';
 import { PipelineService } from '../../services/pipeline.service';
@@ -27,14 +27,17 @@ import { PipelineService } from '../../services/pipeline.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class PipelineComponent implements OnInit, AfterViewInit {
+  @ViewChildren('codePanel') codePanels!: QueryList<ElementRef>;
   @ViewChild('container') container!: ElementRef;
   @ViewChild('sc') sc!: Scroller;
-  @ViewChildren('scrollTarget') scrollTargets!: QueryList<ElementRef>;
+  @ViewChild('testClassesContainer') testClassesContainer!: ElementRef;
+  @ViewChildren('testClassContainer') testClassContainers!: QueryList<ElementRef>;
 
   repositoryID!: number;
   id!: number;
 
-  currentTestClassID!: number;
+  currentTestClassID!: number | null;
+  currentTestClassIndex!: number | null;
 
   item!: IPipelineReadDTO;
   scrollerItems!: { id: number, name: string }[];
@@ -43,9 +46,13 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   highlightedRowMap: Map<number, number[]>;
   checkboxRowMap: Map<number, number[]>;
 
+  visibleIndexes!: number[];
+
   maxCodeHeight!: string;
 
   LoadingContexts = LoadingContexts;
+
+  scrolling!: boolean;
 
   private destroyRef = inject(DestroyRef);
 
@@ -66,10 +73,6 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   checkboxChanged(event: any, row: number) {
     // Handle checkbox change
     console.log(`Checkbox at row ${row} changed to ${event.target.checked}`);
-  }
-
-  debug(testClass: ITestClassReadDTO) {
-    console.log(testClass);
   }
 
   ngOnInit(): void {
@@ -101,11 +104,79 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.maxCodeHeight = `${this.container.nativeElement.offsetHeight}px`;
-    this.cd.detectChanges();
+    this.checkActiveTestClass();
 
-    this.scrollTargets.changes.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-    });
+    this.testClassesContainer.nativeElement.addEventListener('scroll', this.checkActiveTestClass.bind(this));
+
+    this.maxCodeHeight = `${this.container.nativeElement.offsetHeight}px`;
+
+    this.cd.detectChanges();
+  }
+
+  checkActiveTestClass(): void {
+    if (this.scrolling) {
+      return;
+    }
+
+    const activeIndex = this._computeActiveTestClass();
+
+    if (activeIndex !== null) {
+      if (this.currentTestClassIndex !== activeIndex) {
+        this.currentTestClassID = this.item.testClasses[activeIndex].id;
+        this.currentTestClassIndex = activeIndex;
+
+        this.sc.scrollToIndex(this.currentTestClassIndex, 'smooth');
+
+        this._generateVisibleIndexes();
+
+        this.cd.detectChanges();
+      }
+    }
+    else {
+      this.currentTestClassID = null;
+      this.currentTestClassIndex = null;
+    }
+  }
+
+  private _computeActiveTestClass(): number | null {
+    if (!this.item) {
+      return null;
+    }
+
+    const containerTop = this.testClassesContainer.nativeElement.scrollTop;
+    const containerBottom = containerTop + this.testClassesContainer.nativeElement.clientHeight;
+
+    let activeIndex: null | number = null;
+    let i = 0;
+
+    while (activeIndex === null && i < this.testClassContainers.length) {
+      const testClassContainer = this.testClassContainers.get(i)!;
+
+      const testClassContainerTop = testClassContainer.nativeElement.offsetTop;
+      const testClassContainerBottom = testClassContainerTop + testClassContainer.nativeElement.offsetHeight;
+
+      if (testClassContainerTop < containerBottom && testClassContainerBottom > containerTop) {
+        activeIndex = i;
+      }
+
+      i++;
+    }
+
+    return i;
+  }
+
+  private _generateVisibleIndexes(): void {
+    this.visibleIndexes = [];
+
+    if (this.currentTestClassIndex !== null) {
+      for (let j = 0; j < 10; j++) {
+        const index = this.currentTestClassIndex - 5 + j;
+
+        if (index >= 0 && index <= this.item.testClasses.length) {
+          this.visibleIndexes.push(index);
+        }
+      }
+    }
   }
 
   private _load(): void {
@@ -137,6 +208,13 @@ export class PipelineComponent implements OnInit, AfterViewInit {
           }
         }
 
+        if (this.item.testClasses.length > 0) {
+          this.currentTestClassIndex = 0;
+          this.currentTestClassID = this.item.testClasses[0].id;
+        }
+
+        this._generateVisibleIndexes();
+
         this.loadingService.loadingCustom = false;
 
         this.cd.detectChanges();
@@ -147,13 +225,24 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     })
   }
 
-  updateScroller(i: number) {
-    this.currentTestClassID = this.item.testClasses[i].id;
+  changeIndex(item: { id: number, name: string }): void {
+    return;
 
-    // console.log(this.currentTestClassID);
-
-    if (this.sc) {
-      this.sc.scrollToIndex(i, 'smooth');
-    }
+    // const index = this.scrollerItems.findIndex(x => x.id === item.id);
+    //
+    // if (index === -1) {
+    //   return;
+    // }
+    //
+    // this.currentTestClassID = this.item.testClasses[index].id;
+    // this.currentTestClassIndex = index;
+    //
+    // this.visibleIndexes = [this.currentTestClassIndex];
+    //
+    // this.cd.detectChanges();
+    //
+    // this._generateVisibleIndexes();
+    //
+    // this.cd.detectChanges();
   }
 }

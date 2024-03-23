@@ -1,4 +1,10 @@
 app-pipeline {
   display: flex;
   height: 100%;
+
+  .p-panel-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
 }
