@@ -1,13 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashViewCoreModule } from '@dash-view-core';
 import { Highlight } from 'ngx-highlightjs';
 import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
 import { DeferModule } from 'primeng/defer';
 import { MessagesModule } from 'primeng/messages';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
+import { TabViewModule } from 'primeng/tabview';
 
 import { AppRoutingModule } from './app-routing.module';
 import { RepositoryCreateDialogComponent } from './components/repository-create-dialog/repository-create-dialog.component';
@@ -20,8 +22,6 @@ import { RepositoryUserAccessTabComponent } from './components/repository-tabs/r
 import { PipelineComponent } from './pages/pipeline/pipeline.component';
 import { RepositoryListComponent } from './pages/repository-list/repository-list.component';
 import { RepositoryComponent } from './pages/repository/repository.component';
-import { RepositoryService } from './services/repository.service';
-import { TabViewModule } from "primeng/tabview";
 
 @NgModule({
   declarations: [
@@ -49,6 +49,7 @@ import { TabViewModule } from "primeng/tabview";
     MessagesModule,
     Highlight,
     DeferModule,
+    CheckboxModule,
   ],
   providers: [],
 })

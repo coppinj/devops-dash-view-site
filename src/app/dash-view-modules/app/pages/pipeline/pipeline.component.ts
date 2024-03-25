@@ -16,8 +16,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPipelineReadDTO } from '@dash-view-common';
 import { CoreFormBuilder, LoadingContexts, LoadingService, TranslateService } from '@dash-view-core';
+import { saveAs } from 'file-saver';
 import { Scroller } from 'primeng/scroller';
 import { PipelineService } from '../../services/pipeline.service';
+import { TestClassService } from '../../services/test-class.service';
 
 @Component({
   selector: 'app-pipeline',
@@ -39,6 +41,8 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   currentTestClassID!: number | null;
   currentTestClassIndex!: number | null;
 
+  defaultCollapsedMap: Map<number, boolean>;
+
   item!: IPipelineReadDTO;
   scrollerItems!: { id: number, name: string }[];
 
@@ -58,6 +62,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly pipelineService: PipelineService,
+    private readonly testClassService: TestClassService,
     private readonly translateService: TranslateService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
@@ -68,11 +73,25 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this.sourceCodeMap = new Map<number, string[]>();
     this.highlightedRowMap = new Map<number, number[]>();
     this.checkboxRowMap = new Map<number, number[]>();
+
+    this.defaultCollapsedMap = new Map<number, boolean>();
   }
 
-  checkboxChanged(event: any, row: number) {
-    // Handle checkbox change
-    console.log(`Checkbox at row ${row} changed to ${event.target.checked}`);
+  validatedChanged(id: number): void {
+    if (this.defaultCollapsedMap.has(id)) {
+      this.testClassService.toggleValidated(this.repositoryID, this.id, id).subscribe(() => {
+        this.defaultCollapsedMap.set(id, this.item.testClasses.find(x => x.id === id)?.validated ?? false);
+
+        this.cd.detectChanges();
+      });
+    }
+  }
+
+  download(id: number): void {
+    this.testClassService.download(this.repositoryID, this.id, id).subscribe(s => {
+      const filename = /filename="(.+)"/.exec(s.headers.get('content-disposition')!)!;
+      saveAs(s.body!, filename[1]);
+    });
   }
 
   ngOnInit(): void {
@@ -186,6 +205,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this.sourceCodeMap.clear();
     this.highlightedRowMap.clear();
     this.checkboxRowMap.clear();
+    this.defaultCollapsedMap.clear();
 
     this.pipelineService.get({ repositoryID: this.repositoryID, id: this.id }).subscribe({
       next: s => {
@@ -198,6 +218,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
           this.sourceCodeMap.set(testClass.id, testClass.sourceCode.split('\n'));
           this.highlightedRowMap.set(testClass.id, []);
           this.checkboxRowMap.set(testClass.id, []);
+          this.defaultCollapsedMap.set(testClass.id, testClass.validated);
 
           for (const method of testClass.methods) {
             this.checkboxRowMap.get(testClass.id)!.push(method.row);

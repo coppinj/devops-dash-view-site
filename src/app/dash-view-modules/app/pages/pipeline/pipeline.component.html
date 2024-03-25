@@ -1,18 +1,24 @@
-<!--<div *ngFor="let line of codeLines; let i = index" [class.highlight]="isHighlighted(i + 1)">-->
-<!--  <input type="checkbox" *ngIf="isCheckboxLine(i + 1)" (change)="checkboxChanged($event, i + 1)">-->
-<!--  <pre><code [innerHTML]="line | highlight: 'java'"></code></pre>-->
-<!--</div>-->
-
 <div #container class="flex flex-1 flex-column">
   <div class="grid grid-nogutter flex-auto h-full">
     <div #testClassesContainer class="col-12 xl:col-9 overflow-y-auto" [ngStyle]="{'max-height': maxCodeHeight}">
       <app-loader [context]="LoadingContexts.CUSTOM"></app-loader>
 
       <ng-container *ngIf="item">
-        <div *ngFor="let testClass of item.testClasses; index as i" #testClassContainer [id]="'testClass' + i.toString()" [class.mb-4]="i > 0">
-          <p-panel #codePanel *ngIf="visibleIndexes.includes(i)" [toggleable]="true">
+        <div *ngFor="let testClass of item.testClasses; index as i" #testClassContainer [id]="'testClass' + i.toString()" class="mb-4">
+          <p-panel #codePanel *ngIf="visibleIndexes.includes(i)" [toggleable]="true" [collapsed]="defaultCollapsedMap.get(testClass.id)!">
             <ng-template pTemplate="header">
               <h4 class="m-0">{{ testClass.name }}</h4>
+            </ng-template>
+
+            <ng-template pTemplate="icons">
+              <div class="mr-8 inline-flex flex align-items-center">
+                <p-checkbox [(ngModel)]="testClass.validated" (onChange)="validatedChanged(testClass.id)" [binary]="true" inputId="binary"></p-checkbox>
+                <label class="pl-2">{{ 'PIPELINE.MODEL.VALIDATED' | translate }}</label>
+              </div>
+
+              <button class="p-panel-header-icon p-link mr-2" (click)="download(testClass.id)">
+                <span class="pi pi-download"></span>
+              </button>
             </ng-template>
 
             <pre class="m-0 p-0"><code [lineNumbers]="true" [highlight]="testClass.sourceCode"></code></pre>

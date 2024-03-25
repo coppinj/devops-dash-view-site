@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { IEntityDTO } from '@dash-view-common';
+import { IEntityDTO, IPipelineListDTO, IRepositoryListDTO } from '@dash-view-common';
 import { TranslateService } from '@dash-view-core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { RepositoryCreateDialogComponent } from '../../components/repository-create-dialog/repository-create-dialog.component';
@@ -13,7 +13,9 @@ import { RepositoryService } from '../../services/repository.service';
   styleUrl: './repository-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RepositoryListComponent implements OnInit{
+export class RepositoryListComponent implements OnInit {
+  repositories!: IRepositoryListDTO[];
+
   private destroyRef = inject(DestroyRef);
 
   constructor(
@@ -23,10 +25,6 @@ export class RepositoryListComponent implements OnInit{
     private readonly router: Router,
     private readonly cd: ChangeDetectorRef,
   ) {
-  }
-
-  ngOnInit(): void {
-    this.create();
   }
 
   create(): void {
@@ -45,5 +43,21 @@ export class RepositoryListComponent implements OnInit{
         this.router.navigate(['/app/repositories', s.id]);
       }
     });
+  }
+
+  view(row: IRepositoryListDTO): void {
+    this.router.navigate(['/app/repositories', row.rowID]);
+  }
+
+  ngOnInit(): void {
+    this._load();
+  }
+
+  private _load(): void {
+    this.repositoryService.getAll<IRepositoryListDTO>().subscribe(s => {
+      this.repositories = s;
+
+      this.cd.detectChanges();
+    })
   }
 }
