@@ -1,6 +1,134 @@
 {
+  "APP": {
+    "TITLE": "DevOPS Dash view"
+  },
+  "CONFIRM": {
+    "DELETE": {
+      "HEADER": "Confirmer la suppression"
+    }
+  },
+  "CORE": {
+    "FORM": {
+      "INVALID": "Invalide",
+      "RESPONSE": {
+        "INVALID": "Le formulaire est invalide",
+        "ERROR": "Une erreur est survenue",
+        "SUCCESS": "Opération réussie"
+      }
+    },
+    "TOAST": {
+      "SUMMARY": {
+        "SUCCESS": "Opération réussie",
+        "INFO": "Information",
+        "WARN": "Attention",
+        "ERROR": "Erreur"
+      }
+    }
+  },
   "DATATABLE": {
     "PAGE_REPORT": "Affichage de {first} à {last} des entrées de {totalRecords}."
+  },
+  "DIALOG": {
+    "BTN": {
+      "CLOSE": "Fermer",
+      "SAVE": "Sauver"
+    }
+  },
+  "FORM": {
+    "VALIDATION": {
+      "REQUIRED": "Obligatoire",
+      "EMAIL": "FORM.VALIDATION.EMAIL",
+      "MAX_LENGTH": "FORM.VALIDATION.MAX_LENGTH"
+    },
+    "LABEL": {
+      "SEARCH": "Rechercher"
+    },
+    "BTN": {
+      "SAVE": "Sauver"
+    }
+  },
+  "LOGIN": {
+    "MODEL": {
+      "ERROR": "Le nom d'utilisateur et/ou mot de passe est incorrect",
+      "EMAIL": "Nom d'utilisateur",
+      "EMAIL_REQUIRED": "Nom d'utilisateur obligatoire",
+      "PASSWORD": "Mot de passe",
+      "PASSWORD_REQUIRED": "Mot de passe obligatoire",
+      "LOG_IN": "Se connecter"
+    }
+  },
+  "MENU": {
+    "DASHBOARD": "Dashboard",
+    "REPOSITORIES": "Repositories"
+  },
+  "PIPELINE": {
+    "MODEL": {
+      "VALIDATED": "Validé"
+    }
+  },
+  "REPOSITORY": {
+    "CREATE": {
+      "MODEL": {
+        "NAME": "Nom",
+        "URL": "URL"
+      }
+    },
+    "TABS": {
+      "API_KEY": {
+        "CREATE_DIALOG": {
+          "MODEL": {
+            "EXPIRATION_DATE": "Date d'expiration"
+          },
+          "HEADER": "Créer une clé d'API"
+        },
+        "DATATABLE": {
+          "MODEL": {
+            "ID": "ID",
+            "EXPIRATION_DATE": "Date d'expiration",
+            "LAST_ACCESSED_DATE": "Dernière date d'accès"
+          }
+        },
+        "RESPONSE_DIALOG": {
+          "HEADER": "Clé d'API"
+        }
+      },
+      "PIPELINE": {
+        "DATATABLE": {
+          "MODEL": {
+            "ID": "ID",
+            "START_DATE": "Date de début",
+            "COMPLETE_DATE": "Date de fin",
+            "COUNT": "Nombre"
+          }
+        }
+      },
+      "USER_ACCESS": {
+        "DATATABLE": {
+          "MODEL": {
+            "ID": "ID"
+          }
+        },
+        "CREATE_DIALOG": {
+          "HEADER": "Créer un accès utilisateur"
+        }
+      },
+      "PIPELINES": "Pipelines",
+      "ACCESSES": "Accès",
+      "API_KEYS": "Clés d'API"
+    },
+    "LIST": {
+      "CREATE": "Créer un repository"
+    },
+    "DATATABLE": {
+      "MODEL": {
+        "ID": "ID",
+        "NAME": "Nom",
+        "URL": "URL"
+      }
+    },
+    "CREATE_DIALOG": {
+      "HEADER": "Créer un repository"
+    }
   },
   "TEST_MODE": "SITE TEST"
 }

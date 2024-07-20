@@ -17,6 +17,7 @@ export class MenuService {
       {
         label: this.translateService.instant('MENU.DASHBOARD'),
         routerLink: ['/dashboard'],
+        visible: false,
       },
       {
         label: this.translateService.instant('MENU.REPOSITORIES'),

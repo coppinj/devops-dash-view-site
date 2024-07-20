@@ -20,7 +20,7 @@
         <app-repository-pipeline-tab [repositoryID]="item.id"/>
       </ng-template>
     </p-tabPanel>
-    <p-tabPanel [header]="'REPOSITORY.TABS.ACCESSES' | translate" [cache]="false">
+    <p-tabPanel *ngIf="false" [header]="'REPOSITORY.TABS.ACCESSES' | translate" [cache]="false">
       <ng-template pTemplate="content">
         <app-repository-user-access-tab [repositoryID]="item.id"/>
       </ng-template>

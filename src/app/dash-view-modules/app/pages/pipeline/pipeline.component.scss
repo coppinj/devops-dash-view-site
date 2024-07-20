@@ -7,4 +7,29 @@ app-pipeline {
     top: 0;
     z-index: 100;
   }
+
+  pre {
+    overflow-x: auto;
+    //white-space: pre-wrap; /* Optional: it allows the text to wrap instead of extending out of view (but will still provide a scrollbar if the content overflows) */
+    //word-wrap: break-word; /* Optional: ensures that long words will wrap and not cause a scrollbar unless absolutely necessary */
+  }
+
+  code.test-class-code {
+    white-space: pre-wrap; // Allows wrapping of text
+    word-wrap: anywhere; // Allows breaking of long words
+  }
+
+
+  .pipeline-info, .pipeline-code, .pipeline-navigation {
+    .p-card-content {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .pipeline-code {
+    .p-card .p-card-body {
+      padding: 0.5rem;
+    }
+  }
 }

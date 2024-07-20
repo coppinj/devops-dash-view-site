@@ -22,6 +22,7 @@ import { RepositoryUserAccessTabComponent } from './components/repository-tabs/r
 import { PipelineComponent } from './pages/pipeline/pipeline.component';
 import { RepositoryListComponent } from './pages/repository-list/repository-list.component';
 import { RepositoryComponent } from './pages/repository/repository.component';
+import { CardModule } from "primeng/card";
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { RepositoryComponent } from './pages/repository/repository.component';
     Highlight,
     DeferModule,
     CheckboxModule,
+    CardModule,
   ],
   providers: [],
 })

@@ -1,30 +1,31 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { SidebarLayoutComponent } from '@dash-view-core';
+import { inject, NgModule } from '@angular/core';
+import { Route, RouterModule, Routes } from '@angular/router';
+import { AuthGuard, LoginComponent, SidebarLayoutComponent } from '@dash-view-core';
 
 const routes: Routes = [
   {
-    path: 'admin',
+    path: '',
     pathMatch: 'full',
-    redirectTo: 'dashboard',
-  },
-  {
+    redirectTo: 'app/repositories',
+  }, {
+    path: 'login',
+    component: LoginComponent,
+  }, {
     path: '',
     component: SidebarLayoutComponent,
+    canMatch: [(_route: Route) => inject(AuthGuard).canMatch()],
+    canActivate: [(_route: Route) => inject(AuthGuard).canMatch()],
     children: [
       {
         path: 'app',
-        canMatch: [() => true],
         loadChildren: () => import('./dash-view-modules/app/app.module').then(x => x.AppModule),
       },
       {
         path: 'dashboard',
-        canMatch: [() => true],
         loadChildren: () => import('./dash-view-modules/dashboard/dashboard.module').then(x => x.DashboardModule),
       },
       {
         path: 'admin',
-        canMatch: [() => true],
         loadChildren: () => import('./dash-view-modules/admin/admin.module').then(x => x.AdminModule),
       },
     ],

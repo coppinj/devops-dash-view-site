@@ -14,11 +14,13 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IPipelineReadDTO } from '@dash-view-common';
+import { IPipelineReadDTO, IRepositoryReadDTO } from '@dash-view-common';
 import { CoreFormBuilder, LoadingContexts, LoadingService, TranslateService } from '@dash-view-core';
 import { saveAs } from 'file-saver';
 import { Scroller } from 'primeng/scroller';
+import { forkJoin } from 'rxjs';
 import { PipelineService } from '../../services/pipeline.service';
+import { RepositoryService } from '../../services/repository.service';
 import { TestClassService } from '../../services/test-class.service';
 
 @Component({
@@ -43,6 +45,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
 
   defaultCollapsedMap: Map<number, boolean>;
 
+  repository!: IRepositoryReadDTO;
   item!: IPipelineReadDTO;
   scrollerItems!: { id: number, name: string }[];
 
@@ -58,9 +61,13 @@ export class PipelineComponent implements OnInit, AfterViewInit {
 
   scrolling!: boolean;
 
+  validatedTestClasses!: number;
+  totalTestClasses!: number;
+
   private destroyRef = inject(DestroyRef);
 
   constructor(
+    private readonly repositoryService: RepositoryService,
     private readonly pipelineService: PipelineService,
     private readonly testClassService: TestClassService,
     private readonly translateService: TranslateService,
@@ -81,6 +88,8 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     if (this.defaultCollapsedMap.has(id)) {
       this.testClassService.toggleValidated(this.repositoryID, this.id, id).subscribe(() => {
         this.defaultCollapsedMap.set(id, this.item.testClasses.find(x => x.id === id)?.validated ?? false);
+
+        this._updateCountValidated();
 
         this.cd.detectChanges();
       });
@@ -127,7 +136,7 @@ export class PipelineComponent implements OnInit, AfterViewInit {
 
     this.testClassesContainer.nativeElement.addEventListener('scroll', this.checkActiveTestClass.bind(this));
 
-    this.maxCodeHeight = `${this.container.nativeElement.offsetHeight}px`;
+    this.maxCodeHeight = `${this.container.nativeElement.offsetHeight - 60}px`;
 
     this.cd.detectChanges();
   }
@@ -185,13 +194,11 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   }
 
   private _generateVisibleIndexes(): void {
-    this.visibleIndexes = [];
-
     if (this.currentTestClassIndex !== null) {
-      for (let j = 0; j < 10; j++) {
+      for (let j = 0; j < 20; j++) {
         const index = this.currentTestClassIndex - 5 + j;
 
-        if (index >= 0 && index <= this.item.testClasses.length) {
+        if (index >= 0 && index <= this.item.testClasses.length && !this.visibleIndexes.includes(index)) {
           this.visibleIndexes.push(index);
         }
       }
@@ -207,9 +214,14 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     this.checkboxRowMap.clear();
     this.defaultCollapsedMap.clear();
 
-    this.pipelineService.get({ repositoryID: this.repositoryID, id: this.id }).subscribe({
+    forkJoin([
+      this.repositoryService.get<IRepositoryReadDTO>(this.repositoryID),
+      this.pipelineService.get<IPipelineReadDTO>({ repositoryID: this.repositoryID, id: this.id })
+    ]).subscribe({
       next: s => {
-        this.item = s;
+        this.repository = s[0] as IRepositoryReadDTO;
+        this.item = s[1] as IPipelineReadDTO;
+        this.visibleIndexes = [];
         this.scrollerItems = [];
 
         for (const testClass of this.item.testClasses) {
@@ -235,6 +247,8 @@ export class PipelineComponent implements OnInit, AfterViewInit {
         }
 
         this._generateVisibleIndexes();
+
+        this._updateCountValidated();
 
         this.loadingService.loadingCustom = false;
 
@@ -265,5 +279,10 @@ export class PipelineComponent implements OnInit, AfterViewInit {
     // this._generateVisibleIndexes();
     //
     // this.cd.detectChanges();
+  }
+
+  private _updateCountValidated(): void {
+    this.validatedTestClasses = this.item.testClasses.filter(x => x.validated).length;
+    this.totalTestClasses = this.item.testClasses.length;
   }
 }

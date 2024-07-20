@@ -1,13 +1,27 @@
-<div #container class="flex flex-1 flex-column">
-  <div class="grid grid-nogutter flex-auto h-full">
-    <div #testClassesContainer class="col-12 xl:col-9 overflow-y-auto" [ngStyle]="{'max-height': maxCodeHeight}">
-      <app-loader [context]="LoadingContexts.CUSTOM"></app-loader>
+<div #container class="grid flex-1">
+  <div class="col-12 mb-2">
+    <p-card *ngIf="repository && item" styleClass="pipeline-info">
+      <div class="grid">
+        <div class="col-9">
+          <p class="m-0"><a [routerLink]="['/app/repositories', repositoryID]"><{{ repository.name }}></a> {{ item.startDate | date:'medium' }} - {{ item.completeDate ? (item.completeDate | date:'medium') : 'NA' }}</p>
+        </div>
 
+        <div class="col-3">
+          <p class="m-0 text-right">{{ validatedTestClasses }} / {{ totalTestClasses }}</p>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <div #testClassesContainer class="col-12 xl:col-9 overflow-y-auto pt-0" [ngStyle]="{'max-height': maxCodeHeight}">
+    <app-loader [context]="LoadingContexts.CUSTOM"></app-loader>
+
+    <p-card class="pipeline-code">
       <ng-container *ngIf="item">
         <div *ngFor="let testClass of item.testClasses; index as i" #testClassContainer [id]="'testClass' + i.toString()" class="mb-4">
           <p-panel #codePanel *ngIf="visibleIndexes.includes(i)" [toggleable]="true" [collapsed]="defaultCollapsedMap.get(testClass.id)!">
             <ng-template pTemplate="header">
-              <h4 class="m-0">{{ testClass.name }}</h4>
+              <h4 class="m-0">{{ testClass.id }} {{ testClass.name }}</h4>
             </ng-template>
 
             <ng-template pTemplate="icons">
@@ -21,20 +35,22 @@
               </button>
             </ng-template>
 
-            <pre class="m-0 p-0"><code [lineNumbers]="true" [highlight]="testClass.sourceCode"></code></pre>
+            <pre class="m-0 p-0">
+              <code class="test-class-code" [lineNumbers]="true" [highlight]="testClass.sourceCode"></code>
+            </pre>
           </p-panel>
         </div>
       </ng-container>
-    </div>
+    </p-card>
+  </div>
 
-    <div class="col-12 xl:col-3">
-      <ng-container *ngIf="item">
-        <p-scroller #sc [items]="scrollerItems" [itemSize]="30">
-          <ng-template pTemplate="item" let-item let-options="options">
-            <div class="flex align-items-center p-2 cursor-pointer" [class.bg-primary]="item.id === currentTestClassID" (click)="changeIndex(item)" [ngClass]="{ 'surface-400': options.odd }">{{ item.id }} {{ item.name }}</div>
-          </ng-template>
-        </p-scroller>
-      </ng-container>
-    </div>
+  <div class="hidden xl:flex xl:col-3">
+    <ng-container *ngIf="item">
+      <p-scroller #sc [items]="scrollerItems" [itemSize]="30">
+        <ng-template pTemplate="item" let-item let-options="options">
+          <div class="flex align-items-center p-2 cursor-pointer" [class.bg-primary]="item.id === currentTestClassID" (click)="changeIndex(item)" [ngClass]="{ 'surface-400': options.odd }">{{ item.id }} {{ item.name }}</div>
+        </ng-template>
+      </p-scroller>
+    </ng-container>
   </div>
 </div>
