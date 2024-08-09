@@ -1,3 +1,5 @@
+<app-loader [context]="LoadingContexts.CUSTOM"></app-loader>
+
 <div #container class="grid flex-1">
   <div class="col-12 mb-2">
     <p-card *ngIf="repository && item" styleClass="pipeline-info">
@@ -14,9 +16,7 @@
   </div>
 
   <div #testClassesContainer class="col-12 xl:col-9 overflow-y-auto pt-0" [ngStyle]="{'max-height': maxCodeHeight}">
-    <app-loader [context]="LoadingContexts.CUSTOM"></app-loader>
-
-    <p-card class="pipeline-code">
+    <p-card *ngIf="item" class="pipeline-code">
       <ng-container *ngIf="item">
         <div *ngFor="let testClass of item.testClasses; index as i" #testClassContainer [id]="'testClass' + i.toString()" class="mb-4">
           <p-panel #codePanel *ngIf="visibleIndexes.includes(i)" [toggleable]="true" [collapsed]="defaultCollapsedMap.get(testClass.id)!">
@@ -44,7 +44,7 @@
     </p-card>
   </div>
 
-  <div class="hidden xl:flex xl:col-3">
+  <div class="hidden xl:flex xl:col-3 cursor-auto">
     <ng-container *ngIf="item">
       <p-scroller #sc [items]="scrollerItems" [itemSize]="30">
         <ng-template pTemplate="item" let-item let-options="options">

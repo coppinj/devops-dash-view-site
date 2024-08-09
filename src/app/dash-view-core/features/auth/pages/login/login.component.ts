@@ -36,9 +36,6 @@ export class LoginComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.form.errors);
-    console.log(this.form.get('email')?.errors, this.form.get('email')?.hasError('required'));
-    console.log(this.form.get('password')?.errors, this.form.get('password')?.hasError('required'));
     if (this.form.invalid || this.submitting) {
       return this.form.markAllAsTouched();
     }

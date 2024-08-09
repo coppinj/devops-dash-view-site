@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inje
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IRepositoryReadDTO } from '@dash-view-common';
-import { CoreFormBuilder, CoreFormGroup, TranslateService } from '@dash-view-core';
+import { IRepositoryReadDTO, RoleType } from '@dash-view-common';
+import { AuthService, CoreFormBuilder, CoreFormGroup, TranslateService } from '@dash-view-core';
 import { RepositoryService } from '../../services/repository.service';
 
 @Component({
@@ -18,6 +18,8 @@ export class RepositoryComponent implements OnInit {
 
   form!: CoreFormGroup;
 
+  isAdmin!: boolean;
+
   private destroyRef = inject(DestroyRef);
 
   constructor(
@@ -27,10 +29,13 @@ export class RepositoryComponent implements OnInit {
     private readonly router: Router,
     private readonly fb: CoreFormBuilder,
     private readonly cd: ChangeDetectorRef,
+    private readonly authService: AuthService,
   ) {
   }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.role === RoleType.ADMIN;
+
     this.activatedRoute.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(s => {
       if (!s.get('id')) {
         return this.router.navigate(['/repositories']);
@@ -58,6 +63,10 @@ export class RepositoryComponent implements OnInit {
 
         this.form.patchValue(this.item);
 
+        if (!this.isAdmin) {
+          this.form.disable();
+        }
+
         this.cd.detectChanges();
       },
       error: () => {
@@ -67,7 +76,7 @@ export class RepositoryComponent implements OnInit {
   }
 
   submit(): void {
-    if (!this.form.checkValidity()) {
+    if (!this.form.checkValidity() || !this.isAdmin) {
       return;
     }
 

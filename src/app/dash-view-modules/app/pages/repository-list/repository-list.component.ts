@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { IEntityDTO, IPipelineListDTO, IRepositoryListDTO } from '@dash-view-common';
-import { TranslateService } from '@dash-view-core';
+import { IEntityDTO, IPipelineListDTO, IRepositoryListDTO, RoleType } from '@dash-view-common';
+import { AuthService, TranslateService } from '@dash-view-core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { RepositoryCreateDialogComponent } from '../../components/repository-create-dialog/repository-create-dialog.component';
 import { RepositoryService } from '../../services/repository.service';
@@ -16,6 +16,8 @@ import { RepositoryService } from '../../services/repository.service';
 export class RepositoryListComponent implements OnInit {
   repositories!: IRepositoryListDTO[];
 
+  isAdmin!: boolean;
+
   private destroyRef = inject(DestroyRef);
 
   constructor(
@@ -24,6 +26,7 @@ export class RepositoryListComponent implements OnInit {
     private readonly translateService: TranslateService,
     private readonly router: Router,
     private readonly cd: ChangeDetectorRef,
+    private readonly authService: AuthService,
   ) {
   }
 
@@ -50,6 +53,8 @@ export class RepositoryListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.role === RoleType.ADMIN;
+
     this._load();
   }
 

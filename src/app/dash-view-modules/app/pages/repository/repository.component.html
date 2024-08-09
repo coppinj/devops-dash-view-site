@@ -8,7 +8,7 @@
         <app-input-text [label]="'REPOSITORY.CREATE.MODEL.URL' | translate" [formControl]="form.getControl('url')"></app-input-text>
       </div>
 
-      <div class="col-12 text-right">
+      <div *ngIf="isAdmin" class="col-12 text-right">
         <p-button [disabled]="form.invalid" [label]="'FORM.BTN.SAVE' | translate" [outlined]="true" severity="success" type="button" (onClick)="submit()"></p-button>
       </div>
     </div>
@@ -20,12 +20,12 @@
         <app-repository-pipeline-tab [repositoryID]="item.id"/>
       </ng-template>
     </p-tabPanel>
-    <p-tabPanel *ngIf="false" [header]="'REPOSITORY.TABS.ACCESSES' | translate" [cache]="false">
+    <p-tabPanel *ngIf="isAdmin" [header]="'REPOSITORY.TABS.ACCESSES' | translate" [cache]="false">
       <ng-template pTemplate="content">
         <app-repository-user-access-tab [repositoryID]="item.id"/>
       </ng-template>
     </p-tabPanel>
-    <p-tabPanel [header]="'REPOSITORY.TABS.API_KEYS' | translate" [cache]="false">
+    <p-tabPanel *ngIf="isAdmin" [header]="'REPOSITORY.TABS.API_KEYS' | translate" [cache]="false">
       <ng-template pTemplate="content">
         <app-repository-api-key-tab [repositoryID]="item.id"/>
       </ng-template>

@@ -32,6 +32,6 @@
   </ng-template>
 
   <ng-template pTemplate="paginatorleft">
-    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (onClick)="create()"></p-button>
+    <p-button *ngIf="isAdmin" type="button" icon="pi pi-plus" styleClass="p-button-text" (onClick)="create()"></p-button>
   </ng-template>
 </p-table>

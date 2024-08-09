@@ -52,9 +52,11 @@
       "ERROR": "Le nom d'utilisateur et/ou mot de passe est incorrect",
       "EMAIL": "Nom d'utilisateur",
       "EMAIL_REQUIRED": "Nom d'utilisateur obligatoire",
+      "MUST_BE_EMAIL": "Adresse email invalide",
       "PASSWORD": "Mot de passe",
       "PASSWORD_REQUIRED": "Mot de passe obligatoire",
-      "LOG_IN": "Se connecter"
+      "LOG_IN": "Se connecter",
+      "WELCOME_BACK": "Bienvenue"
     }
   },
   "MENU": {

@@ -261,24 +261,26 @@ export class PipelineComponent implements OnInit, AfterViewInit {
   }
 
   changeIndex(item: { id: number, name: string }): void {
-    return;
+    const index = this.scrollerItems.findIndex(x => x.id === item.id);
 
-    // const index = this.scrollerItems.findIndex(x => x.id === item.id);
-    //
-    // if (index === -1) {
-    //   return;
-    // }
-    //
-    // this.currentTestClassID = this.item.testClasses[index].id;
-    // this.currentTestClassIndex = index;
-    //
-    // this.visibleIndexes = [this.currentTestClassIndex];
-    //
-    // this.cd.detectChanges();
-    //
-    // this._generateVisibleIndexes();
-    //
-    // this.cd.detectChanges();
+    if (index === -1) {
+      return;
+    }
+
+    this.currentTestClassID = this.item.testClasses[index].id;
+    this.currentTestClassIndex = index;
+
+    this.cd.detectChanges();
+
+    this._generateVisibleIndexes();
+
+    this.cd.detectChanges();
+
+    this.scrolling = true;
+
+    this.testClassContainers.get(this.currentTestClassIndex)?.nativeElement.scrollIntoView({behavior: 'instant'});
+
+    setTimeout(() => this.scrolling = false, 500);
   }
 
   private _updateCountValidated(): void {
