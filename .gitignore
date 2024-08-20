@@ -41,4 +41,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-dash-view-front-*.tar.gz
+devops-dash-view-front-*.tar.gz
+*.Identifier
